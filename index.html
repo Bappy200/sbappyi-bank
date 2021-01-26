@@ -8,7 +8,123 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div id="login-area">
+        <h1 class="text-center mb-5">Sbappyi Bank is a great.</h1>
+        <div class="submit-area">
+            <h2>Please fill you info</h2>
+            <input type="email" class="form-control mb-3 mt-3" placeholder="Email" required>
+            <input type="password" class="form-control mb-3" placeholder="Password" required>
+            <div id='login' class="btn btn-success">Login</div>
+        </div>
+    </div>
+    <div id="account-area">
+       <div class="row">
+           <div class="col-md-4">
+               <div class="deposit statas">
+                 <h5>Deposit</h5>
+                 <h1 id='current-deposit'>$00</h1>
+               </div>
+           </div>
+           <div class="col-md-4">
+                <div class="withdraw statas">
+                    <h5>Withdraw</h5>
+                    <h1 id='current-withdraw'>$00</h1>
+                </div>
+           </div>
+           <div class="col-md-4">
+                <div class="balance statas">
+                    <h5>Balance</h5>
+                    <h1 id='current-balance'>$1200</h1>
+                </div>
+           </div>
+       </div>
+       <div class="row mt-5">
+           <div class='col-md-6'>
+               <div class="submit-area">
+                   <h4>Deposit</h4>
+                   <input id='deposit-amount' type="number" class="form-control mb-2" placeholder="$ amount you want to deposit">
+                   <button id='deposit-btn' class="btn btn-success">Deposit</button>
+               </div>
+           </div>
+           <div class='col-md-6'>
+               <div class="submit-area">
+                   <h4>Withdraw</h4>
+                   <input id='withdraw-amount' type="number" class="form-control mb-2" placeholder="$ amount you want to withdraw">
+                   <button id='withdraw-btn' class="btn btn-success">Withdraw</button>
+               </div>
+           </div>
+       </div>
+    </div>
+    <script>
+
+        //login check function
+        document.getElementById('login').addEventListener('click',function(){
+            document.getElementById('login-area').style.display='none';
+            document.getElementById('account-area').style.display='block';
+        });
+
+
+        function stringToNumber(str){
+            return Number(str.substring(1));
+        }
+
+        //deposit function
+        const depositBtn = document.getElementById('deposit-btn');
+        depositBtn.addEventListener('click',function(){
+            //deposit amount form user input
+            const depositAmount = getInput('deposit-amount')
+
+            
+            /*const balanceAmount = document.getElementById('current-balance');
+            const currentBalance = stringToNumber(balanceAmount.innerText);
+            const balance = currentBalance + depositAmount;
+            balanceAmount.innerText = '$'+balance;*/
+
+            //get current deposit and increment deposit
+            updateBalance('current-deposit',depositAmount);  
+
+            //get current balance and increment balance
+            updateBalance('current-balance',depositAmount);
+
+            document.getElementById('deposit-amount').value='';        
+        });
+
+        function updateBalance(id, depositAmount){
+            const current = document.getElementById(id);
+            const currentAmount = stringToNumber(current.innerText);
+            const totalAmount = currentAmount + depositAmount;
+            current.innerText = '$'+totalAmount;
+        }
+
+        function decrementBalance(id, depositAmount){
+            const current = document.getElementById(id);
+            const currentAmount = stringToNumber(current.innerText);
+            const totalAmount = currentAmount - depositAmount;
+            current.innerText = '$'+totalAmount;
+        }
+
+        function getInput(id){
+            const amount = Number(document.getElementById(id).value);
+            return amount;
+
+        }
+        //withdraw function
+        const withdrawBtn = document.getElementById('withdraw-btn');
+        withdrawBtn.addEventListener('click',function(){
+            const withdrawAmount = getInput('withdraw-amount');
+
+            // update withdraw current amount
+            updateBalance('current-withdraw',withdrawAmount);
+
+            //decrement current balance
+            decrementBalance('current-balance',withdrawAmount);
+
+            document.getElementById('withdraw-amount').value=''
+        });
+
+
+
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>
 </html>
